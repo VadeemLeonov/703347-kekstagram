@@ -20,7 +20,7 @@
     return count;
   };
 
-  // Функция которая ищет одинаковые хэш-тэги
+  // Функция которая удаляет похожие хэш-тэги
 
   var removeSameElement = function (elements) {
     var obj = {};
@@ -43,8 +43,8 @@
       errorMessage = 'Один и тот же хэш-тег не может быть использован дважды';
     }
 
-    for (var I = 0; I < hashTags.length; I++) {
-      var hashTag = hashTags[I];
+    for (var i = 0; i < hashTags.length; i++) {
+      var hashTag = hashTags[i];
       if (hashTag[0] !== '#') {
         errorMessage = 'Хэш-тег должен начинаться с решетки #';
       } else if (hashTag.length === 1) {

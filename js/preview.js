@@ -14,7 +14,7 @@
     userPicture.querySelector('.likes-count').textContent = item.like;
     userPicture.querySelector('.comments-count').textContent = item.comments.length;
     userPicture.querySelector('.social__caption').textContent = item.description;
-    window.createCommentElement(item.comments.length);
+    window.comment.createElement(item.comments);
   };
 
   var pictureItems = document.querySelectorAll('.picture');

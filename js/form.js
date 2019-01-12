@@ -3,11 +3,12 @@
 (function () {
 
   var WIDTH_SCALE = 450;
-  var BORDERS_OF_BRIGHTNESS = 2 + 1;
+  var BORDERS_OF_BRIGHTNESS = 2;
   var BORDERS_OF_BLUR = 3;
-  var BORDERS_OF_INVERT = 100;
+  var PERCENT = 100;
   var EFFECT_LEVEL_MAX = 1;
   var EFFECT_LEVEL_MIN = 0;
+  var ORIGINAL = 'none';
 
   // открываем и закрываем форму редактирования изображения
 
@@ -19,10 +20,8 @@
   // если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы
   var onUploadPopupEscPress = function (evt) {
     if (window.util.isEscEvent(evt)) {
-      if (window.util.hashTagsInput !== document.activeElement) {
-        if (textDescription !== document.activeElement) {
-          closeUploadPopup();
-        }
+      if (window.util.hashTagsInput !== document.activeElement && textDescription !== document.activeElement) {
+        closeUploadPopup();
       }
     }
   };
@@ -53,8 +52,8 @@
 
   var getNone = function () {
     slider.classList.add('hidden');
-    for (var j = 1; j < effectNames.length - 1; j++) {
-      effectsDirectory[effectNames[j]](EFFECT_LEVEL_MIN);
+    for (var i = 1; i < effectNames.length - 1; i++) {
+      effectsDirectory[effectNames[i]](EFFECT_LEVEL_MIN);
     }
   };
 
@@ -67,7 +66,7 @@
   };
 
   var getMarvin = function (invert) {
-    preview.style.filter = 'invert(' + invert * BORDERS_OF_INVERT + '%)';
+    preview.style.filter = 'invert(' + invert * PERCENT + '%)';
   };
 
   var getPhobos = function (blur) {
@@ -75,7 +74,7 @@
   };
 
   var getHeat = function (brightness) {
-    preview.style.filter = 'brightness(' + (brightness * BORDERS_OF_BRIGHTNESS) + ')';
+    preview.style.filter = 'brightness(' + (brightness * BORDERS_OF_BRIGHTNESS + 1) + ')';
   };
 
   // Объект с вызовами фенкций для эффектов
@@ -98,22 +97,28 @@
   var sliderEffectLevel = document.querySelector('.effect-level__pin');
   var sliderEffectDepth = document.querySelector('.effect-level__depth');
   var sliderEffectValue = document.querySelector('.effect-level__value');
-  var sliderEffectLine = document.querySelector('.effect-level__line');
   var slider = document.querySelector('.effect-level');
   var effectsDirectoryFilter;
 
+  // функция которая устанавливает значения для ползунка
+
+  var getSliderValue = function (value) {
+    sliderEffectLevel.style.left = value + '%';
+    sliderEffectDepth.style.width = value + '%';
+    sliderEffectValue.value = value;
+  };
+
   var addEffectListClickHandler = function (effects, effectName) {
     effects.addEventListener('click', function () {
-      sliderEffectLevel.style.left = 100 + '%';
-      sliderEffectDepth.style.width = 100 + '%';
-      slider.classList.remove('hidden');
+      getSliderValue(PERCENT);
       preview.classList.remove(currentFilter);
       currentFilter = 'effects__preview--' + effectName;
       preview.classList.add(currentFilter);
       effectsDirectoryFilter = effectName;
-      if (effectsDirectoryFilter === 'none') {
+      if (effectsDirectoryFilter === ORIGINAL) {
         getNone();
       } else {
+        slider.classList.remove('hidden');
         effectsDirectory[effectsDirectoryFilter](EFFECT_LEVEL_MAX);
       }
     });
@@ -144,14 +149,12 @@
       };
 
       var movePin = sliderEffectLevel.offsetLeft - shift.x;
-      var coordsPin = movePin + 'px';
 
       if (movePin >= 0 && movePin <= WIDTH_SCALE) {
-        sliderEffectLevel.style.left = coordsPin;
-        sliderEffectDepth.style.width = coordsPin;
-        var effectLevel = sliderEffectLevel.offsetLeft / sliderEffectLine.offsetWidth;
+        var effectLevel = movePin / WIDTH_SCALE;
+        var valuePin = effectLevel * PERCENT;
+        getSliderValue(valuePin);
         effectsDirectory[effectsDirectoryFilter](effectLevel);
-        sliderEffectValue.value = effectLevel * 100;
       }
     };
 
@@ -165,33 +168,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-
-  // Изменяем масштаб фото
-
-  var ScaleValue = {
-    MIN: 25,
-    MAX: 100,
-    STEP: 25
+  window.form = {
+    preview: preview
   };
-
-  var smallerButton = document.querySelector('.scale__control--smaller');
-  var biggerButton = document.querySelector('.scale__control--bigger');
-  var scaleControlValue = document.querySelector('.scale__control--value');
-
-  var scalePhoto = function (directionScale) {
-    var currentScale = parseInt(scaleControlValue.value, 10);
-    currentScale = currentScale + (ScaleValue.STEP * directionScale);
-    if (currentScale >= ScaleValue.MIN && currentScale <= ScaleValue.MAX) {
-      scaleControlValue.value = currentScale + '%';
-      preview.style.transform = 'scale(' + currentScale / 100 + ')';
-    }
-  };
-
-  smallerButton.addEventListener('click', function () {
-    scalePhoto(-1);
-  });
-
-  biggerButton.addEventListener('click', function () {
-    scalePhoto(1);
-  });
 })();

@@ -22,9 +22,9 @@
 
     for (var i = 0; i < count; i++) {
       var comment = {
-        avatar: 'img/avatar-' + window.random.getRandomInt(1, 6) + '.svg',
-        message: window.random.getRandomElement(usersComments),
-        name: window.random.getRandomElement(usersName)
+        avatar: 'img/avatar-' + window.random.getInt(1, 6) + '.svg',
+        message: window.random.getElement(usersComments),
+        name: window.random.getElement(usersName)
       };
       comments.push(comment);
     }
@@ -39,7 +39,7 @@
     for (var i = 1; i < quantity + 1; i++) {
       var object = {
         url: 'photos/' + i + '.jpg',
-        like: window.random.getRandomInt(15, 200),
+        like: window.random.getInt(15, 200),
         comments: getComments(6),
         description: 'Тестим новую камеру!'
       };

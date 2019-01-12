@@ -5,13 +5,12 @@
   // Создаем элементы для маленьких фото в разметке
 
   var pictureListElement = document.querySelector('.pictures');
+  var fragment = document.createDocumentFragment();
+  var picture = document.querySelector('#picture')
+    .content
+    .querySelector('.picture');
 
   var createPictureElement = function (number) {
-
-    var fragment = document.createDocumentFragment();
-    var picture = document.querySelector('#picture')
-      .content
-      .querySelector('.picture');
 
     for (var i = 0; i < number; i++) {
 
