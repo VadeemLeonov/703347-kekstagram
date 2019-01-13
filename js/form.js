@@ -2,12 +2,11 @@
 
 (function () {
 
-  var WIDTH_SCALE = 450;
+  var WIDTH_SCALE = 453;
   var BORDERS_OF_BRIGHTNESS = 2;
   var BORDERS_OF_BLUR = 3;
   var PERCENT = 100;
   var EFFECT_LEVEL_MAX = 1;
-  var EFFECT_LEVEL_MIN = 0;
   var ORIGINAL = 'none';
 
   // открываем и закрываем форму редактирования изображения
@@ -28,6 +27,7 @@
 
   var openUploadPopup = function () {
     uploadOverlay.classList.remove('hidden');
+    slider.classList.add('hidden');
     getNone();
     document.addEventListener('keydown', onUploadPopupEscPress);
   };
@@ -51,10 +51,7 @@
   // Функции для эффектов (ползунок)
 
   var getNone = function () {
-    slider.classList.add('hidden');
-    for (var i = 1; i < effectNames.length - 1; i++) {
-      effectsDirectory[effectNames[i]](EFFECT_LEVEL_MIN);
-    }
+    preview.style.filter = '';
   };
 
   var getChrome = function (grayScale) {
@@ -105,7 +102,7 @@
   var getSliderValue = function (value) {
     sliderEffectLevel.style.left = value + '%';
     sliderEffectDepth.style.width = value + '%';
-    sliderEffectValue.value = value;
+    sliderEffectValue.value = Math.round(value);
   };
 
   var addEffectListClickHandler = function (effects, effectName) {
@@ -115,12 +112,9 @@
       currentFilter = 'effects__preview--' + effectName;
       preview.classList.add(currentFilter);
       effectsDirectoryFilter = effectName;
-      if (effectsDirectoryFilter === ORIGINAL) {
-        getNone();
-      } else {
-        slider.classList.remove('hidden');
-        effectsDirectory[effectsDirectoryFilter](EFFECT_LEVEL_MAX);
-      }
+      slider.classList.toggle('hidden', effectsDirectoryFilter === ORIGINAL);
+      effectsDirectory[effectsDirectoryFilter](EFFECT_LEVEL_MAX);
+
     });
   };
 

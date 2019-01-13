@@ -5,10 +5,12 @@
   // Показываем большое фото
 
   var userPicture = document.querySelector('.big-picture');
+  var body = document.querySelector('body');
 
   var getBigPicture = function (item) {
 
     userPicture.classList.remove('hidden');
+    body.classList.add('.modal-open');
     document.addEventListener('keydown', onBigPictureEscPress);
     userPicture.querySelector('img').src = item.url;
     userPicture.querySelector('.likes-count').textContent = item.like;
@@ -41,6 +43,7 @@
 
   var closeBigPicture = function () {
     userPicture.classList.add('hidden');
+    userPicture.classList.remove('modal-open');
     document.removeEventListener('keydown', onBigPictureEscPress);
   };
 
