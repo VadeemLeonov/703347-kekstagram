@@ -17,6 +17,7 @@
   var uploadFileClose = uploadOverlay.querySelector('#upload-cancel');
 
   // если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы
+
   var onUploadPopupEscPress = function (evt) {
     if (window.util.isEscEvent(evt)) {
       if (window.util.hashTagsInput !== document.activeElement && textDescription !== document.activeElement) {
@@ -36,6 +37,8 @@
     uploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onUploadPopupEscPress);
     uploadFile.value = '';
+    window.util.hashTagsInput.value = '';
+    document.querySelector('.text__description').value = '';
   };
 
   uploadFile.addEventListener('change', function () {
@@ -51,7 +54,8 @@
   // Функции для эффектов (ползунок)
 
   var getNone = function () {
-    preview.style.filter = '';
+    preview.style.filter = ORIGINAL;
+    effectItems[0].checked = true;
   };
 
   var getChrome = function (grayScale) {
@@ -97,13 +101,21 @@
   var slider = document.querySelector('.effect-level');
   var effectsDirectoryFilter;
 
-  // функция которая устанавливает значения для ползунка
+  // функция которая записывает значения для отображения ползунка
 
   var getSliderValue = function (value) {
     sliderEffectLevel.style.left = value + '%';
     sliderEffectDepth.style.width = value + '%';
     sliderEffectValue.value = Math.round(value);
   };
+
+  // функция которая устанавливает значения для эффектов по перетаскиванию ползунка
+
+  var getEffectLevl = function (level) {
+    effectsDirectory[effectsDirectoryFilter](level / 100);
+  };
+
+  // функция устанавливает значения для эффектов по переключению иконок
 
   var addEffectListClickHandler = function (effects, effectName) {
     effects.addEventListener('click', function () {
@@ -114,12 +126,11 @@
       effectsDirectoryFilter = effectName;
       slider.classList.toggle('hidden', effectsDirectoryFilter === ORIGINAL);
       effectsDirectory[effectsDirectoryFilter](EFFECT_LEVEL_MAX);
-
     });
   };
 
-  for (var j = 0; j < effectItems.length; j++) {
-    addEffectListClickHandler(effectItems[j], effectNames[j]);
+  for (var i = 0; i < effectItems.length; i++) {
+    addEffectListClickHandler(effectItems[i], effectNames[i]);
   }
 
   // Перетаскивание ползунка
@@ -148,7 +159,7 @@
         var effectLevel = movePin / WIDTH_SCALE;
         var valuePin = effectLevel * PERCENT;
         getSliderValue(valuePin);
-        effectsDirectory[effectsDirectoryFilter](effectLevel);
+        getEffectLevl(valuePin);
       }
     };
 
@@ -162,6 +173,17 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+
+  var form = document.querySelector('.img-upload__form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(form), function () {
+      closeUploadPopup();
+      window.util.successMassage();
+    }, window.util.errorMassage);
+    evt.preventDefault();
+  });
+
   window.form = {
     preview: preview
   };

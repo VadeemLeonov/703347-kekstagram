@@ -2,6 +2,7 @@
 
 (function () {
 
+
   // Создаем элементы для маленьких фото в разметке
 
   var pictureListElement = document.querySelector('.pictures');
@@ -10,18 +11,21 @@
     .content
     .querySelector('.picture');
 
-  var createPictureElement = function (number) {
+  var loadPictureElement = function (data) {
 
-    for (var i = 0; i < number; i++) {
+    for (var i = 0; i < data.length; i++) {
 
       var pictureElement = picture.cloneNode(true);
-      pictureElement.querySelector('.picture__img').src = window.data[i].url;
-      pictureElement.querySelector('.picture__likes').textContent = window.data[i].like;
-      pictureElement.querySelector('.picture__comments').textContent = window.data[i].comments.length;
+      pictureElement.querySelector('.picture__img').src = data[i].url;
+      pictureElement.querySelector('.picture__likes').textContent = data[i].like;
+      pictureElement.querySelector('.picture__comments').textContent = data[i].comments.length;
 
       fragment.appendChild(pictureElement);
     }
     pictureListElement.appendChild(fragment);
   };
-  createPictureElement(window.data.length);
+
+  window.backend.load(loadPictureElement, window.util.onError);
+
+
 })();

@@ -3,12 +3,10 @@
 (function () {
 
   // Показываем большое фото
-
   var userPicture = document.querySelector('.big-picture');
   var body = document.querySelector('body');
 
   var getBigPicture = function (item) {
-
     userPicture.classList.remove('hidden');
     body.classList.add('.modal-open');
     document.addEventListener('keydown', onBigPictureEscPress);
@@ -19,18 +17,20 @@
     window.comment.createElement(item.comments);
   };
 
-  var pictureItems = document.querySelectorAll('.picture');
-
   var addPictureClickHandler = function (pictureItem, dataCard) {
     pictureItem.addEventListener('click', function () {
       getBigPicture(dataCard);
     });
   };
 
-  for (var i = 0; i < pictureItems.length; i++) {
-    addPictureClickHandler(pictureItems[i], window.data[i]);
-  }
+  var onLoad = function (response) {
+    var pictureItems = document.querySelectorAll('.picture');
+    for (var i = 0; i < pictureItems.length; i++) {
+      addPictureClickHandler(pictureItems[i], response[i]);
+    }
+  };
 
+  window.backend.load(onLoad, window.util.onError);
   // Закрываем большое фото
 
   var bigPictureCansel = document.querySelector('#picture-cancel');

@@ -24,8 +24,8 @@
 
   var removeSameElement = function (elements) {
     var obj = {};
-    for (var u = 0; u < elements.length; u++) {
-      var element = elements[u];
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
       obj[element] = true; // запомнить строку в виде свойства объекта
     }
     return Object.keys(obj);
@@ -59,5 +59,14 @@
       errorMessage = '';
     }
     window.util.hashTagsInput.setCustomValidity(errorMessage);
+  });
+
+  window.util.hashTagsInput.addEventListener('change', function () {
+    var result = window.util.hashTagsInput.checkValidity();
+    if (result === false) {
+      window.util.hashTagsInput.style.borderColor = '#ff0000';
+    } else {
+      window.util.hashTagsInput.style.borderColor = '';
+    }
   });
 })();
