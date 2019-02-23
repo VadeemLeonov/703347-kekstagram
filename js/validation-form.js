@@ -35,6 +35,7 @@
     var hashTagText = window.util.hashTagsInput.value.trim();
     var hashTags = hashTagText.toLowerCase().split(' ');
     var errorMessage = '';
+    window.util.hashTagsInput.style.borderColor = '';
     if (getCountHashTag(hashTagText) > QUANTITY_HASH_TAG) {
       errorMessage = 'Нельзя указать больше пяти хэш-тегов';
     }
@@ -58,15 +59,14 @@
     if (hashTag === '') {
       errorMessage = '';
     }
+
     window.util.hashTagsInput.setCustomValidity(errorMessage);
   });
 
   window.util.hashTagsInput.addEventListener('change', function () {
-    var result = window.util.hashTagsInput.checkValidity();
-    if (result === false) {
+    window.util.result = window.util.hashTagsInput.checkValidity();
+    if (window.util.result === false) {
       window.util.hashTagsInput.style.borderColor = '#ff0000';
-    } else {
-      window.util.hashTagsInput.style.borderColor = '';
     }
   });
 })();

@@ -16,9 +16,16 @@
         .querySelector('.error');
 
       node.textContent = onErrorMessage;
-      document.body.insertAdjacentElement('afterbegin', node);
+      var massageElm = node.cloneNode(true);
+      document.body.insertAdjacentElement('afterbegin', massageElm);
+      var remMassageElm = function () {
+        massageElm.remove();
+        document.removeEventListener('click', remMassageElm);
+      };
+      document.addEventListener('click', remMassageElm);
     },
     response: [],
+    result: '',
     errorMassage: function () {
       var node = document.querySelector('#error')
         .content
@@ -31,9 +38,13 @@
       errorBtn.addEventListener('click', function () {
         massageElm.remove();
       });
-      document.addEventListener('click', function () {
+
+      var remMassageElm = function () {
         massageElm.remove();
-      });
+        document.removeEventListener('click', remMassageElm);
+      };
+      document.addEventListener('click', remMassageElm);
+
       var closeMassege = function (evt) {
         if (window.util.isEscEvent(evt)) {
           massageElm.remove();
@@ -53,9 +64,13 @@
       successBtn.addEventListener('click', function () {
         massageElm.remove();
       });
-      document.addEventListener('click', function () {
+
+      var remMassageElm = function () {
         massageElm.remove();
-      });
+        document.removeEventListener('click', remMassageElm);
+      };
+      document.addEventListener('click', remMassageElm);
+
       var closeMassege = function (evt) {
         if (window.util.isEscEvent(evt)) {
           massageElm.remove();

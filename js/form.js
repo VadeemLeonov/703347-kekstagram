@@ -174,8 +174,19 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-
   var form = document.querySelector('.img-upload__form');
+
+
+  var submitBtn = document.querySelector('#upload-submit');
+  var close = function () {
+    window.util.result = window.util.hashTagsInput.checkValidity();
+    if (window.util.result === true) {
+      uploadOverlay.classList.add('hidden');
+    }
+  };
+
+  submitBtn.addEventListener('click', close);
+
   form.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(form), function () {
       closeUploadPopup();
