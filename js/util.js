@@ -16,68 +16,76 @@
         .querySelector('.error');
 
       node.textContent = onErrorMessage;
-      var massageElm = node.cloneNode(true);
-      document.body.insertAdjacentElement('afterbegin', massageElm);
-      var remMassageElm = function () {
-        massageElm.remove();
-        document.removeEventListener('click', remMassageElm);
+      var messageElm = node.cloneNode(true);
+      document.body.insertAdjacentElement('afterbegin', messageElm);
+      var remMessageElm = function () {
+        messageElm.remove();
+        document.removeEventListener('click', remMessageElm);
       };
-      document.addEventListener('click', remMassageElm);
+      document.addEventListener('click', remMessageElm);
     },
     response: [],
     result: '',
-    errorMassage: function () {
+    errorMessage: function () {
       var node = document.querySelector('#error')
         .content
         .querySelector('.error');
 
-      var massageElm = node.cloneNode(true);
-      document.body.insertAdjacentElement('afterbegin', massageElm);
-      massageElm.style = 'z-index: 99';
+      var messageElm = node.cloneNode(true);
+      document.body.insertAdjacentElement('afterbegin', messageElm);
+      messageElm.style = 'z-index: 99';
       var errorBtn = document.querySelector('.error__button');
       errorBtn.addEventListener('click', function () {
-        massageElm.remove();
+        messageElm.remove();
       });
 
-      var remMassageElm = function () {
-        massageElm.remove();
-        document.removeEventListener('click', remMassageElm);
+      var remMessageElm = function () {
+        messageElm.remove();
+        document.removeEventListener('click', remMessageElm);
       };
-      document.addEventListener('click', remMassageElm);
+      document.addEventListener('click', remMessageElm);
 
-      var closeMassege = function (evt) {
+      var closeMessege = function (evt) {
         if (window.util.isEscEvent(evt)) {
-          massageElm.remove();
-          document.removeEventListener('keydown', closeMassege);
+          messageElm.remove();
+          document.removeEventListener('keydown', closeMessege);
         }
       };
-      document.addEventListener('keydown', closeMassege);
+      document.addEventListener('keydown', closeMessege);
     },
-    successMassage: function () {
+    successMessage: function () {
       var node = document.querySelector('#success')
         .content
         .querySelector('.success');
 
-      var massageElm = node.cloneNode(true);
-      document.body.insertAdjacentElement('afterbegin', massageElm);
+      var messageElm = node.cloneNode(true);
+      document.body.insertAdjacentElement('afterbegin', messageElm);
       var successBtn = document.querySelector('.success__button');
       successBtn.addEventListener('click', function () {
-        massageElm.remove();
+        messageElm.remove();
       });
 
-      var remMassageElm = function () {
-        massageElm.remove();
-        document.removeEventListener('click', remMassageElm);
+      var remMessageElm = function () {
+        messageElm.remove();
+        document.removeEventListener('click', remMessageElm);
       };
-      document.addEventListener('click', remMassageElm);
+      document.addEventListener('click', remMessageElm);
 
-      var closeMassege = function (evt) {
+      var closeMessege = function (evt) {
         if (window.util.isEscEvent(evt)) {
-          massageElm.remove();
-          document.removeEventListener('keydown', closeMassege);
+          messageElm.remove();
+          document.removeEventListener('keydown', closeMessege);
         }
       };
-      document.addEventListener('keydown', closeMassege);
+      document.addEventListener('keydown', closeMessege);
+    },
+    uploadMessage: function () {
+      var node = document.querySelector('#messages')
+        .content
+        .querySelector('.img-upload__message');
+
+      var messageElm = node.cloneNode(true);
+      document.body.insertAdjacentElement('afterbegin', messageElm);
     }
   };
 })();
