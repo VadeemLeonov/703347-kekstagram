@@ -36,6 +36,7 @@
     var hashTags = hashTagText.toLowerCase().split(' ');
     var errorMessage = '';
     window.util.hashTagsInput.style.borderColor = '';
+
     if (getCountHashTag(hashTagText) > QUANTITY_HASH_TAG) {
       errorMessage = 'Нельзя указать больше пяти хэш-тегов';
     }
@@ -46,14 +47,20 @@
 
     for (var i = 0; i < hashTags.length; i++) {
       var hashTag = hashTags[i];
-      if (hashTag[0] !== '#') {
-        errorMessage = 'Хэш-тег должен начинаться с решетки #';
-      } else if (hashTag.length === 1) {
-        errorMessage = 'Хеш-тег не может состоять только из одной решётки';
-      } else if (hashTag.length > HASH_TAG_LENGTH) {
-        errorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
-      } else if (hashTag.indexOf('#', 1) > 1) {
-        errorMessage = 'Хэштеги должны разделяться пробелами';
+
+      switch (true) {
+        case hashTag[0] !== '#':
+          errorMessage = 'Хэш-тег должен начинаться с решетки #';
+          break;
+        case hashTag.length === 1:
+          errorMessage = 'Хеш-тег не может состоять только из одной решётки';
+          break;
+        case hashTag.length > HASH_TAG_LENGTH:
+          errorMessage = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
+          break;
+        case hashTag.indexOf('#', 1) > 1:
+          errorMessage = 'Хэштеги должны разделяться пробелами';
+          break;
       }
     }
     if (hashTag === '') {

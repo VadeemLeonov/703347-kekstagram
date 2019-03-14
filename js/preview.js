@@ -24,7 +24,6 @@
   };
 
   var onLoad = function (response) {
-    window.util.response = response.slice();
     var pictureItems = document.querySelectorAll('.picture');
     for (var i = 0; i < pictureItems.length; i++) {
       addPictureClickHandler(pictureItems[i], response[i]);
