@@ -31,7 +31,7 @@
     return Object.keys(obj);
   };
 
-  window.util.hashTagsInput.addEventListener('input', function () {
+  window.util.hashTagsInput.addEventListener('keyup', function () {
     var hashTagText = window.util.hashTagsInput.value.trim();
     var hashTags = hashTagText.toLowerCase().split(' ');
     var errorMessage = '';
@@ -68,9 +68,7 @@
     }
 
     window.util.hashTagsInput.setCustomValidity(errorMessage);
-  });
 
-  window.util.hashTagsInput.addEventListener('change', function () {
     window.util.result = window.util.hashTagsInput.checkValidity();
     if (window.util.result === false) {
       window.util.hashTagsInput.style.borderColor = '#ff0000';

@@ -8,6 +8,7 @@
   var PERCENT = 100;
   var EFFECT_LEVEL_MAX = 1;
   var ORIGINAL = 'none';
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   // открываем и закрываем форму редактирования изображения
 
@@ -41,7 +42,26 @@
     document.querySelector('.text__description').value = '';
   };
 
+  // Загруаем выбранное пользователем изображение до отправки на сервер и открываем форму редактирования фото
+
   uploadFile.addEventListener('change', function () {
+    var prev = document.querySelector('#prev');
+    var file = uploadFile.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        prev.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
     openUploadPopup();
   });
 
