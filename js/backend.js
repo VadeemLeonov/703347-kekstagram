@@ -16,6 +16,7 @@
       xhr.addEventListener('load', function () {
         if (xhr.status === 200) {
           onLoad(xhr.response);
+          window.util.response = xhr.response;
         } else {
           onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
         }

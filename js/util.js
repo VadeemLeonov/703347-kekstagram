@@ -3,10 +3,10 @@
 (function () {
   var ESC_KEYCODE = 27;
 
-  var hashTagsInput = document.querySelector('.text__hashtags');
-
   window.util = {
-    hashTagsInput: hashTagsInput,
+    hashTagsInput: document.querySelector('.text__hashtags'),
+    response: '',
+    result: '',
     isEscEvent: function (evt) {
       return evt.keyCode === ESC_KEYCODE;
     },
@@ -24,8 +24,6 @@
       };
       document.addEventListener('click', remMessageElm);
     },
-    response: [],
-    result: '',
     errorMessage: function () {
       var node = document.querySelector('#error')
         .content
@@ -78,6 +76,7 @@
         }
       };
       document.addEventListener('keydown', closeMessege);
+      window.preview.reload();
     },
     uploadMessage: function () {
       var node = document.querySelector('#messages')
